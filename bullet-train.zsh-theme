@@ -187,10 +187,10 @@ fi
 
 # CONTEXT
 if [ ! -n "${BULLETTRAIN_CONTEXT_BG+1}" ]; then
-  BULLETTRAIN_CONTEXT_BG=black
+  BULLETTRAIN_CONTEXT_BG=default
 fi
 if [ ! -n "${BULLETTRAIN_CONTEXT_FG+1}" ]; then
-  BULLETTRAIN_CONTEXT_FG=white
+  BULLETTRAIN_CONTEXT_FG=default
 fi
 if [ ! -n "${BULLETTRAIN_CONTEXT_HOSTNAME+1}" ]; then
   BULLETTRAIN_CONTEXT_HOSTNAME=%m
@@ -290,7 +290,9 @@ prompt_segment() {
   local bg fg
   [[ -n $1 ]] && bg="%K{$1}" || bg="%k"
   [[ -n $2 ]] && fg="%F{$2}" || fg="%f"
-  if [[ $CURRENT_BG != 'NONE' && $1 != $CURRENT_BG ]]; then
+  if [[ $CURRENT_BG == 'default' && $1 != $CURRENT_BG ]]; then
+    echo -n " %{%S%F{$1}%}$SEGMENT_SEPARATOR%{%f%s%}%{$bg%}%{$fg%} "
+  elif [[ $CURRENT_BG != 'NONE' && $1 != $CURRENT_BG ]]; then
     echo -n " %{$bg%F{$CURRENT_BG}%}$SEGMENT_SEPARATOR%{$fg%} "
   else
     echo -n "%{$bg%}%{$fg%} "
@@ -301,7 +303,7 @@ prompt_segment() {
 
 # End the prompt, closing any open segments
 prompt_end() {
-  if [[ -n $CURRENT_BG ]]; then
+  if [[ -n $CURRENT_BG && $CURRENT_BG != 'default' ]]; then
     echo -n " %{%k%F{$CURRENT_BG}%}$SEGMENT_SEPARATOR"
   else
     echo -n "%{%k%}"
