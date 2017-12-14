@@ -23,10 +23,12 @@ if [ ! -n "${BULLETTRAIN_PROMPT_ORDER+1}" ]; then
     custom
     context
     dir
+    screen
     perl
     ruby
     virtualenv
     nvm
+    aws
     go
     elixir
     git
@@ -102,6 +104,17 @@ if [ ! -n "${BULLETTRAIN_NVM_FG+1}" ]; then
 fi
 if [ ! -n "${BULLETTRAIN_NVM_PREFIX+1}" ]; then
   BULLETTRAIN_NVM_PREFIX="⬡ "
+fi
+
+# AWS
+if [ ! -n "${BULLETTRAIN_AWS_BG+1}" ]; then
+  BULLETTRAIN_AWS_BG=yellow
+fi
+if [ ! -n "${BULLETTRAIN_AWS_FG+1}" ]; then
+  BULLETTRAIN_AWS_FG=black
+fi
+if [ ! -n "${BULLETTRAIN_AWS_PREFIX+1}" ]; then
+  BULLETTRAIN_AWS_PREFIX="☁️"
 fi
 
 # RUBY
@@ -261,6 +274,17 @@ if [ ! -n "${BULLETTRAIN_GIT_DIVERGED+1}" ]; then
   ZSH_THEME_GIT_PROMPT_DIVERGED=" ⬍"
 else
   ZSH_THEME_GIT_PROMPT_DIVERGED=$BULLETTRAIN_GIT_PROMPT_DIVERGED
+fi
+
+# SCREEN
+if [ ! -n "${BULLETTRAIN_SCREEN_BG+1}" ]; then
+  BULLETTRAIN_SCREEN_BG=white
+fi
+if [ ! -n "${BULLETTRAIN_SCREEN_FG+1}" ]; then
+  BULLETTRAIN_SCREEN_FG=black
+fi
+if [ ! -n "${BULLETTRAIN_SCREEN_PREFIX+1}" ]; then
+  BULLETTRAIN_SCREEN_PREFIX="⬗"
 fi
 
 # COMMAND EXECUTION TIME
@@ -516,11 +540,30 @@ prompt_nvm() {
   if type nvm >/dev/null 2>&1; then
     nvm_prompt=$(nvm current 2>/dev/null)
     [[ "${nvm_prompt}x" == "x" ]] && return
-  else
+  elif type node >/dev/null 2>&1; then
     nvm_prompt="$(node --version)"
+  else
+    return
   fi
   nvm_prompt=${nvm_prompt}
   prompt_segment $BULLETTRAIN_NVM_BG $BULLETTRAIN_NVM_FG $BULLETTRAIN_NVM_PREFIX$nvm_prompt
+}
+
+#AWS Profile
+prompt_aws() {
+  local spaces="  "
+
+  if [[ -n "$AWS_PROFILE" ]]; then
+    prompt_segment $BULLETTRAIN_AWS_BG $BULLETTRAIN_AWS_FG $BULLETTRAIN_AWS_PREFIX$spaces$AWS_PROFILE
+  fi
+}
+
+# SCREEN Session
+prompt_screen() {
+  local session_name="$STY"
+  if [[ "$session_name" != "" ]]; then
+    prompt_segment $BULLETTRAIN_SCREEN_BG $BULLETTRAIN_SCREEN_FG $BULLETTRAIN_SCREEN_PREFIX" $session_name"
+  fi
 }
 
 prompt_time() {

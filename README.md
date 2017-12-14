@@ -1,6 +1,6 @@
 <img src="http://rawgit.com/caiogondim/bullet-train-oh-my-zsh-theme/master/img/icon.svg" width="100%" />
 
-# Bullet Train for oh-my-zsh [![Slack Status](https://bullet-train-zsh-slack.herokuapp.com/badge.svg)](https://bullet-train-zsh-slack.herokuapp.com/)
+# Bullet Train for oh-my-zsh <a href="http://webchat.freenode.net/?channels=bullettrain-sh" target="_blank"><img src="https://img.shields.io/badge/IRC-bullettrain–sh-1e72ff.svg?style=flat" height="20"></a>
 
 Bullet Train is a [oh-my-zsh shell](https://github.com/robbyrussell/oh-my-zsh)
 theme based on the
@@ -74,12 +74,11 @@ zgen load caiogondim/bullet-train-oh-my-zsh-theme bullet-train
 ### For Zplug users
 
 If you're using [zplug](https://github.com/zplug/zplug), add the following line
-to your **~/.zshrc** where you're adding your other zsh plugins **after** the
-line `zplug "robbyrussell/oh-my-zsh"`.
+to your **~/.zshrc** where you're adding your other zsh plugins.
 
 ```bash
-setopt prompt_subst # Make sure propt is able to be generated properly.
-zplug "adambiggs/zsh-theme", use:adambiggs.zsh-theme
+setopt prompt_subst # Make sure prompt is able to be generated properly.
+zplug "caiogondim/bullet-train.zsh", use:bullet-train.zsh-theme, defer:3 # defer until other plugins like oh-my-zsh is loaded
 ```
 
 ## Options
@@ -187,6 +186,17 @@ NOTE: You do not need to specify *end* segment - it will be added automatically.
 |`BULLETTRAIN_GO_FG`|`white`|Foreground color
 |`BULLETTRAIN_GO_PREFIX`|`go`|Prefix of the segment
 
+### AWS Profile
+
+Displays which AWS (Amazon Web Services) credentials profile is currently set.
+This environment var is used by aws-cli and other tools to use the right access keys and other parameters.
+
+|Variable|Default|Meaning
+|--------|-------|-------|
+|`BULLETTRAIN_AWS_BG`|`yellow`|Background color
+|`BULLETTRAIN_AWS_FG`|`black`|Foreground color
+|`BULLETTRAIN_AWS_PREFIX`|`☁️`|Prefix of the segment
+
 ### Perl
 
 |Variable|Default|Meaning
@@ -230,6 +240,14 @@ NOTE: You do not need to specify *end* segment - it will be added automatically.
 |`BULLETTRAIN_GIT_DIVERGED`|`" ⬍"`|Icon for diverged state from remote
 
 The git prompt can be disabled for a specific repository by setting a git config flag: `get config oh-my-zsh.hide-status 1`. This is useful to avoid performance issues for particularly huge repositories.
+
+### Screen
+
+|Variable|Default|Meaning
+|--------|-------|-------|
+|`BULLETTRAIN_SCREEN_BG`|`white`|Background color
+|`BULLETTRAIN_SCREEN_FG`|`black`|Foreground color
+|`BULLETTRAIN_SCREEN_PREFIX`|`⬗`|Prefix of the segment
 
 ### Mercurial/HG
 
